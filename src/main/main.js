@@ -82,14 +82,14 @@ function createWindow() {
     title: "Focus Tomato",
     backgroundColor: "#f6f4ef",
     autoHideMenuBar: true,
-    icon: path.join(__dirname, "tomato-icon.png"),
+    icon: path.join(__dirname, "..", "..", "assets", "icons", "tomato-icon.png"),
     webPreferences: {
       contextIsolation: true,
-      preload: path.join(__dirname, "electron-preload.js")
+      preload: path.join(__dirname, "preload.js")
     }
   });
 
-  mainWindow.loadFile(path.join(__dirname, "index.html"));
+  mainWindow.loadFile(path.join(__dirname, "..", "renderer", "index.html"));
 
   mainWindow.on("minimize", (event) => {
     event.preventDefault();

@@ -4,7 +4,8 @@ const fs = require("fs");
 
 // Genera un ícono de tomate rojo como PNG 256x256 e ICO
 const size = 256;
-const outDir = __dirname;
+const outDir = path.join(__dirname, "..", "assets", "icons");
+fs.mkdirSync(outDir, { recursive: true });
 
 // Crear un SVG de tomate simple
 const tomatoSvg = `

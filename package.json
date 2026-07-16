@@ -4,16 +4,16 @@
   "private": true,
   "license": "UNLICENSED",
   "description": "Aplicacion Pomodoro profesional y visual para Windows.",
-  "main": "electron-main.js",
+  "main": "src/main/main.js",
   "author": "Focus Tomato",
   "engines": {
     "node": ">=18"
   },
   "scripts": {
     "serve": "node server.js",
-    "desktop": "node generate-icon.js && electron .",
-    "dist": "node generate-icon.js && set CSC_IDENTITY_AUTO_DISCOVERY=false&& electron-builder --win nsis portable --publish never",
-    "release": "node generate-icon.js && set CSC_IDENTITY_AUTO_DISCOVERY=false&& electron-builder --win nsis portable --publish always"
+    "desktop": "node scripts/generate-icon.js && electron .",
+    "dist": "node scripts/generate-icon.js && set CSC_IDENTITY_AUTO_DISCOVERY=false&& electron-builder --win nsis portable --publish never",
+    "release": "node scripts/generate-icon.js && set CSC_IDENTITY_AUTO_DISCOVERY=false&& electron-builder --win nsis portable --publish always"
   },
   "build": {
     "appId": "com.focustomato.app",
@@ -28,12 +28,8 @@
       "repo": "AppPomodoros"
     },
     "files": [
-      "index.html",
-      "styles.css",
-      "app.js",
-      "electron-main.js",
-      "electron-preload.js",
-      "tomato-icon*.png",
+      "src/**/*",
+      "assets/**/*",
       "package.json",
       "node_modules/**/*"
     ],
@@ -42,7 +38,7 @@
         "nsis",
         "portable"
       ],
-      "icon": "tomato-icon.png"
+      "icon": "assets/icons/tomato-icon.png"
     },
     "nsis": {
       "oneClick": false,
