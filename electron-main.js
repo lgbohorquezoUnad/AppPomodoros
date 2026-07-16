@@ -1,6 +1,9 @@
-const { app, BrowserWindow, ipcMain, screen } = require("electron");
+const { app, BrowserWindow, ipcMain, screen, dialog } = require("electron");
+const { autoUpdater } = require("electron-updater");
 const fs = require("fs");
 const path = require("path");
+
+const UPDATE_CHECK_INTERVAL_MS = 4 * 60 * 60 * 1000;
 
 let mainWindow;
 let compactMode = false;
@@ -106,9 +109,37 @@ function createWindow() {
   mainWindow.on("resize", saveCompactBounds);
 }
 
+function setupAutoUpdater() {
+  // En desarrollo (npm run desktop) la app no esta empaquetada y autoUpdater lanza error; solo aplica al .exe instalado.
+  if (!app.isPackaged) return;
+
+  autoUpdater.autoInstallOnAppQuit = true;
+
+  autoUpdater.on("update-downloaded", () => {
+    dialog.showMessageBox(mainWindow, {
+      type: "info",
+      title: "Actualizacion disponible",
+      message: "Se descargo una nueva version de Focus Tomato. ¿Reiniciar ahora para instalarla?",
+      buttons: ["Reiniciar ahora", "Mas tarde"],
+      defaultId: 0,
+      cancelId: 1
+    }).then((result) => {
+      if (result.response === 0) autoUpdater.quitAndInstall();
+    });
+  });
+
+  autoUpdater.on("error", (error) => {
+    console.error("Error al buscar actualizaciones:", error);
+  });
+
+  autoUpdater.checkForUpdates();
+  setInterval(() => autoUpdater.checkForUpdates(), UPDATE_CHECK_INTERVAL_MS);
+}
+
 app.whenReady().then(() => {
   loadCompactBounds();
   createWindow();
+  setupAutoUpdater();
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();

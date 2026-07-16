@@ -12,7 +12,8 @@
   "scripts": {
     "serve": "node server.js",
     "desktop": "node generate-icon.js && electron .",
-    "dist": "node generate-icon.js && set CSC_IDENTITY_AUTO_DISCOVERY=false&& electron-builder --win nsis portable --publish never"
+    "dist": "node generate-icon.js && set CSC_IDENTITY_AUTO_DISCOVERY=false&& electron-builder --win nsis portable --publish never",
+    "release": "node generate-icon.js && set CSC_IDENTITY_AUTO_DISCOVERY=false&& electron-builder --win nsis portable --publish always"
   },
   "build": {
     "appId": "com.focustomato.app",
@@ -21,6 +22,11 @@
       "output": "dist"
     },
     "compression": "maximum",
+    "publish": {
+      "provider": "github",
+      "owner": "lgbohorquezoUnad",
+      "repo": "AppPomodoros"
+    },
     "files": [
       "index.html",
       "styles.css",
@@ -28,7 +34,8 @@
       "electron-main.js",
       "electron-preload.js",
       "tomato-icon*.png",
-      "package.json"
+      "package.json",
+      "node_modules/**/*"
     ],
     "win": {
       "target": [
@@ -54,5 +61,8 @@
     "electron-builder": "^26.8.1",
     "ico": "^0.3.3",
     "sharp": "^0.35.3"
+  },
+  "dependencies": {
+    "electron-updater": "^6.8.9"
   }
 }
