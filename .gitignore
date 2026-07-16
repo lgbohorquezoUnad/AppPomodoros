@@ -1,0 +1,9 @@
+node_modules/
+dist/
+outputs/
+*.log
+.DS_Store
+desktop.ini
+Thumbs.db
+.env
+.env.local

@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Focus Tomato</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="progress-bar-top" id="progressBarTop"></div>
+  <main class="app-shell">
+    <section class="task-panel" aria-label="Tareas">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <div>
+          <h1>Focus Tomato</h1>
+          <p>Pomodoros profesionales</p>
+        </div>
+      </div>
+
+      <form class="task-form" id="taskForm">
+        <label for="taskInput">Nueva tarea</label>
+        <div class="task-entry">
+          <input id="taskInput" type="text" placeholder="Ej. Preparar informe semanal" autocomplete="off">
+          <button type="submit" title="Agregar tarea">+</button>
+        </div>
+      </form>
+
+      <div class="task-list-head">
+        <span>Tareas de trabajo</span>
+        <button id="clearDoneButton" type="button">Limpiar hechas</button>
+      </div>
+      <ul class="task-list" id="taskList" aria-live="polite"></ul>
+    </section>
+
+    <section class="focus-panel" aria-label="Pomodoro">
+      <header class="top-bar">
+        <div>
+          <p class="eyebrow" id="modeLabel">Enfoque</p>
+          <h2 id="activeTaskLabel">Selecciona una tarea</h2>
+        </div>
+        <div class="session-pill" id="cycleLabel">Ciclo 1 de 4</div>
+      </header>
+
+      <div class="timer-stage">
+        <div class="progress-ring" id="progressRing">
+          <div class="time" id="timeLabel">25:00</div>
+          <div class="time-caption" id="timerCaption">Listo para empezar</div>
+        </div>
+      </div>
+
+      <div class="controls" aria-label="Controles del temporizador">
+        <button class="primary" id="startPauseButton" type="button">Iniciar</button>
+        <button id="resetButton" type="button">Reiniciar</button>
+        <button id="skipButton" type="button">Saltar</button>
+        <button id="compactButton" type="button">Compacto</button>
+      </div>
+
+      <div class="stats-grid" aria-label="Resumen del día">
+        <article>
+          <span id="donePomodoros">0</span>
+          <p>Pomodoros</p>
+        </article>
+        <article>
+          <span id="focusMinutes">0</span>
+          <p>Minutos enfoque</p>
+        </article>
+        <article>
+          <span id="completedTasks">0</span>
+          <p>Tareas hechas</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="settings-panel" aria-label="Configuración">
+      <h2>Configuración</h2>
+      <div class="setting">
+        <label for="focusInput">Pomodoro</label>
+        <input id="focusInput" type="number" min="1" max="180" value="25">
+        <span>min</span>
+      </div>
+      <div class="setting">
+        <label for="shortInput">Descanso corto</label>
+        <input id="shortInput" type="number" min="1" max="60" value="5">
+        <span>min</span>
+      </div>
+      <div class="setting">
+        <label for="longInput">Descanso largo</label>
+        <input id="longInput" type="number" min="1" max="90" value="15">
+        <span>min</span>
+      </div>
+      <div class="setting">
+        <label for="cyclesInput">Descanso largo cada</label>
+        <input id="cyclesInput" type="number" min="2" max="12" value="4">
+        <span>pom.</span>
+      </div>
+      <div class="setting range-setting">
+        <label for="opacityInput">Transparencia compacto</label>
+        <input id="opacityInput" type="range" min="30" max="100" value="100">
+        <span id="opacityValue">100%</span>
+      </div>
+      <label class="toggle">
+        <input id="soundToggle" type="checkbox" checked>
+        <span>Sonido al terminar</span>
+      </label>
+      <div class="setting range-setting">
+        <label for="volumeInput">Volumen tono</label>
+        <input id="volumeInput" type="range" min="0" max="200" value="120">
+        <span id="volumeValue">120%</span>
+      </div>
+      <div class="setting select-setting">
+        <label for="toneSelect">Tono</label>
+        <select id="toneSelect">
+          <option value="classic">Clasico</option>
+          <option value="soft">Suave</option>
+          <option value="deep">Grave</option>
+          <option value="bright">Brillante</option>
+          <option value="custom">Personalizado</option>
+        </select>
+      </div>
+      <div class="setting custom-tone-setting" id="customToneSetting">
+        <label for="customToneInput">Frecuencias</label>
+        <input id="customToneInput" type="text" value="660,880,1046" placeholder="660,880,1046">
+      </div>
+      <button class="test-sound-button" id="testSoundButton" type="button">Probar sonido</button>
+      <label class="toggle">
+        <input id="floatingToggle" type="checkbox" checked>
+        <span>Tomate flotante</span>
+      </label>
+      <label class="toggle">
+        <input id="alwaysOnTopToggle" type="checkbox" checked>
+        <span>Siempre encima en compacto</span>
+      </label>
+      <label class="toggle">
+        <input id="autoBreakToggle" type="checkbox">
+        <span>Iniciar descansos automaticamente</span>
+      </label>
+      <label class="toggle">
+        <input id="autoFocusToggle" type="checkbox">
+        <span>Iniciar enfoque despues del descanso</span>
+      </label>
+      <label class="toggle">
+        <input id="darkThemeToggle" type="checkbox">
+        <span>Tema oscuro</span>
+      </label>
+    </section>
+  </main>
+
+  <aside class="floating-tomato" id="floatingTomato" aria-label="Indicador visual del Pomodoro">
+    <div class="tomato-card">
+      <div class="compact-mode-label" id="compactModeLabel">ENFOQUE</div>
+      <div class="compact-toolbar" aria-label="Controles compactos">
+        <button id="compactStartPauseButton" type="button" title="Iniciar o pausar">▶</button>
+        <button id="compactResetButton" type="button" title="Reiniciar">↺</button>
+        <button id="compactPinButton" type="button" title="Fijar encima">⌖</button>
+        <button id="expandButton" type="button" title="Volver a pantalla completa">↗</button>
+      </div>
+      <div class="compact-opacity-control" aria-label="Transparencia del modo compacto">
+        <span>Transparencia</span>
+        <input id="compactOpacityInput" type="range" min="30" max="100" value="100">
+        <strong id="compactOpacityValue">100%</strong>
+      </div>
+      <div class="tomato" id="tomato">
+        <div class="tomato-leaf"></div>
+        <div class="tomato-shine"></div>
+        <div class="tomato-meter" id="tomatoMeter">
+          <span id="tomatoMinutes">25</span>
+          <small>min</small>
+        </div>
+      </div>
+      <div class="tomato-status" id="tomatoStatus">Tomate verde</div>
+    </div>
+  </aside>
+
+  <script src="app.js"></script>
+</body>
+</html>

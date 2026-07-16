@@ -1,0 +1,58 @@
+{
+  "name": "focus-tomato",
+  "version": "0.1.0",
+  "private": true,
+  "license": "UNLICENSED",
+  "description": "Aplicacion Pomodoro profesional y visual para Windows.",
+  "main": "electron-main.js",
+  "author": "Focus Tomato",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "serve": "node server.js",
+    "desktop": "node generate-icon.js && electron .",
+    "dist": "node generate-icon.js && set CSC_IDENTITY_AUTO_DISCOVERY=false&& electron-builder --win nsis portable --publish never"
+  },
+  "build": {
+    "appId": "com.focustomato.app",
+    "productName": "Focus Tomato",
+    "directories": {
+      "output": "dist"
+    },
+    "compression": "maximum",
+    "files": [
+      "index.html",
+      "styles.css",
+      "app.js",
+      "electron-main.js",
+      "electron-preload.js",
+      "tomato-icon*.png",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "tomato-icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Focus Tomato",
+      "artifactName": "${productName}-${version}-Setup.${ext}"
+    },
+    "portable": {
+      "artifactName": "${productName}-${version}-Portable.${ext}"
+    }
+  },
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "electron-builder": "^26.8.1",
+    "ico": "^0.3.3",
+    "sharp": "^0.35.3"
+  }
+}
